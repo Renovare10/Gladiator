@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Gladiator.WeaponSelectionStrategy;
+using System;
 using System.Collections.Generic;
 
 namespace Gladiator
@@ -7,12 +8,12 @@ namespace Gladiator
     {
         static void Main()
         {
-            // Initialize teams (1v1 for now)
-            var hero = new Character { Health = 100 };
-            var goblin = new Character { Health = 30 };
+            // Initialize teams (1v1, Fist only)
+            var hero = new Character(new HighestDamageStrategy()) { Health = 100 };
+            var goblin = new Character(new HighestDamageStrategy()) { Health = 30 };
             var teamManager = new TeamManager(
-                new List<Character> { hero },
-                new List<Character> { goblin }
+                [hero],
+                [goblin]
             );
 
             // Subscribe to events for UI
