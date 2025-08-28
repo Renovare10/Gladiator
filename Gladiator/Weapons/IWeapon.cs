@@ -9,6 +9,11 @@ namespace Gladiator.Weapons
     public interface IWeapon
     {
         string Name { set; get; }
-        int Damage { set; get; }
+        DamageRange DamageRange { get; }
+        int GetRandomDamage()
+        {
+            return new Random().Next(DamageRange.Min, DamageRange.Max + 1);
+        }
+
     }
 }

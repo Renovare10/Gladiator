@@ -11,16 +11,26 @@ namespace Gladiator
     {
         public int Health { get; set; }
         public bool Alive => Health > 0;
-        public IWeapon weapon { get; set; } = new Weapons.Fist();
+        public IWeapon Weapon { get; set; } = new Weapons.Fist();
 
-        public void Attact(Character p1)
+        // Events for attack and death
+        public event Action<Character, Character, int>? OnAttack;
+        public event Action<Character>? OnDeath;
+
+        public void Attact(Character target)
         {
-            p1.Damage(this.weapon.Damage);
+            int damage = Weapon.GetRandomDamage();
+            target.Damage(damage);
+            OnAttack?.Invoke(this, target, damage);
         }
 
         public void Damage(int damage)
         {
-            this.Health -= damage;
+            Health = Math.Max(0, Health - damage);
+            if (!Alive)
+            {
+                OnDeath?.Invoke(this);
+            }
         }
     }
 }

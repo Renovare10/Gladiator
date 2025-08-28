@@ -3,6 +3,6 @@
     internal class Fist : IWeapon
     {
         public string Name { get; set; } = "Fist";
-        public int Damage { get; set; } = 1;
+        public DamageRange DamageRange { get; } = new DamageRange(1, 3);
     }
 }
