@@ -9,12 +9,13 @@ namespace Gladiator
         static void Main()
         {
             // Initialize teams (1v1, Fist only)
-            var hero = new Character(new HighestDamageStrategy()) { Health = 100 };
-            var goblin = new Character(new HighestDamageStrategy()) { Health = 30 };
+            var hero = new Character(new HighestDamageStrategy()) { Health = 100, Name = "Gladius" };
+            var goblin = new Character(new HighestDamageStrategy()) { Health = 30, Name = "Goblin" };
             var teamManager = new TeamManager(
                 [hero],
                 [goblin]
             );
+            var gameState = new GameState(teamManager); // Initialize game state
 
             // Subscribe to events for UI
             foreach (var player in teamManager.PlayerTeam.Concat(teamManager.EnemyTeam))
@@ -28,14 +29,15 @@ namespace Gladiator
             // Auto-battle loop
             while (teamManager.SimulateRound())
             {
-                Helper.PrintStatus(teamManager.PlayerTeam, teamManager.EnemyTeam);
+                Helper.PrintStatus(teamManager.PlayerTeam, teamManager.EnemyTeam, gameState.PlayerGold);
                 Console.WriteLine("Press Enter for next round");
                 Console.ReadLine();
             }
 
             // Final state
-            Helper.PrintStatus(teamManager.PlayerTeam, teamManager.EnemyTeam);
+            Helper.PrintStatus(teamManager.PlayerTeam, teamManager.EnemyTeam, gameState.PlayerGold);
             Console.WriteLine(teamManager.PlayerTeam.Any(c => c.Alive) ? "Player wins!" : "Enemy wins!");
+            Console.WriteLine($"Final Gold: {gameState.PlayerGold}");
             Console.WriteLine("Press Enter to exit");
             Console.ReadLine();
         }

@@ -7,6 +7,7 @@ namespace Gladiator
 {
     public class Character
     {
+        public string Name { get; set; } = "Gladiator"; // Default name
         public int Health { get; set; }
         public bool Alive => Health > 0;
         public List<IWeapon> Inventory { get; } = [];
